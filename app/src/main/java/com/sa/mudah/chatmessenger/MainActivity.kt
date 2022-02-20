@@ -1,25 +1,31 @@
 package com.sa.mudah.chatmessenger
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.sa.mudah.chatmessenger.model.Chat
-import com.sa.mudah.chatmessenger.utils.getJsonDataFromAsset
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.sa.mudah.chatmessenger.chat.ChatAdapter
 import com.sa.mudah.chatmessenger.databinding.ActivityMainBinding
+import com.sa.mudah.chatmessenger.model.Chat
 import com.sa.mudah.chatmessenger.model.MessageModel
 import com.sa.mudah.chatmessenger.utils.getISOTimeStamp
+import com.sa.mudah.chatmessenger.utils.getJsonDataFromAsset
 import com.sa.mudah.chatmessenger.viewmodel.ChatViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
+import timber.log.Timber
 import java.lang.reflect.Type
+import java.util.*
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -64,6 +70,42 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+
+
+        etMessage.addTextChangedListener(object : TextWatcher {
+            var isTyping = false
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            private var timer: Timer = Timer()
+            private val DELAY: Long = 60000 // 1 minute
+            override fun afterTextChanged(s: Editable) {
+                if (!isTyping) {
+                    if(BuildConfig.DEBUG)
+                    Timber.d("started typing")
+                    isTyping = true
+                }
+                timer.cancel()
+                timer = Timer()
+                timer.schedule(
+                    object : TimerTask() {
+                        override fun run() {
+                            isTyping = false
+                            if(BuildConfig.DEBUG)
+                                Timber.d("Stop typing")
+
+                            val message = MessageModel(
+                                getISOTimeStamp(), "INCOMING",
+                                "Are you there?", 34, getISOTimeStamp(), true
+                            )
+//
+                            etMessage.setText("")
+                            chatViewModel.sendAndReceiveChat(message)
+                        }
+                    },
+                    DELAY
+                )
+            }
+        })
 
     }
 
