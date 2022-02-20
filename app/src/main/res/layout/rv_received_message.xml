@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="chat"
+            type="com.sa.mudah.chatmessenger.model.MessageModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/llMessageContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:background="@drawable/ll_received_message_background"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/spacing_large"
+            android:paddingEnd="@dimen/spacing_large">
+
+            <TextView
+                android:id="@+id/tvSenderName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:gravity="start"
+                android:text="@{chat.direction}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_small"
+
+                android:textStyle="bold"
+                tools:visibility="visible" />
+
+
+            <TextView
+                android:id="@+id/tvSenderMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_xsmall"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:gravity="start"
+                android:text="@{chat.message}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_small" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Chat Messenger</string>
+
+    <string name="failed">Failed</string>
+    <string name="type_a_message">Type a message</string>
+    <string name="float_button">Float Button</string>
+</resources>

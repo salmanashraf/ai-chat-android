@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="chat"
+            type="com.sa.mudah.chatmessenger.model.MessageModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/tvFailed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/spacing_large"
+            android:layout_toStartOf="@+id/llMessageContainer"
+            android:drawableStart="@drawable/ic_failed_red_24dp"
+            android:drawablePadding="@dimen/spacing_medium"
+            android:text="@string/failed"
+            android:textColor="@android:color/holo_red_dark"
+            android:visibility="@{chat.success ? View.GONE : View.VISIBLE}" />
+
+        <LinearLayout
+            android:id="@+id/llMessageContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:background="@drawable/ll_sent_message_background"
+            android:gravity="center_vertical|end"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/spacing_large"
+            android:paddingEnd="@dimen/spacing_large">
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:textColor="@color/lightGrey"
+                android:textStyle="bold"
+                android:text="@{chat.direction}"
+                tools:visibility="visible" />
+
+
+            <TextView
+                android:id="@+id/tvMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:gravity="start"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_small"
+                android:text="@{chat.message}" />
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>
