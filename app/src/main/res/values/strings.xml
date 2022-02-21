@@ -4,4 +4,10 @@
     <string name="failed">Failed</string>
     <string name="type_a_message">Type a message</string>
     <string name="float_button">Float Button</string>
+
+    <string name="wifi_enabled">Wifi enabled</string>
+    <string name="mobile_data_enabled">Mobile data enabled</string>
+    <string name="no_internet">Without internet</string>
+    <string name="error_internet">No Internet Connection</string>
+
 </resources>

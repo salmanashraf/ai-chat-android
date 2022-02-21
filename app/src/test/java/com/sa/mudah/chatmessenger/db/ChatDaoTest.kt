@@ -76,9 +76,6 @@ class ChatDaoTest {
             isSuccess = true
         )
         chatDao.insertChat(chat)
-        val allUsers = chatDao.getAllChat()
-        var data  = allUsers.toLiveData(10)
-        assert(data.value!!.isNotEmpty())
 
     }
 
