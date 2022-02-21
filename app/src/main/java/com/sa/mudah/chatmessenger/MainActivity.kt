@@ -9,6 +9,8 @@ import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
@@ -19,6 +21,7 @@ import com.sa.mudah.chatmessenger.model.Chat
 import com.sa.mudah.chatmessenger.model.MessageModel
 import com.sa.mudah.chatmessenger.utils.getISOTimeStamp
 import com.sa.mudah.chatmessenger.utils.getJsonDataFromAsset
+import com.sa.mudah.chatmessenger.utils.network.NetworkUtil
 import com.sa.mudah.chatmessenger.viewmodel.ChatViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
@@ -80,8 +83,8 @@ class MainActivity : AppCompatActivity() {
             private val DELAY: Long = 60000 // 1 minute
             override fun afterTextChanged(s: Editable) {
                 if (!isTyping) {
-                    if(BuildConfig.DEBUG)
-                    Timber.d("started typing")
+                    if (BuildConfig.DEBUG)
+                        Timber.d("started typing")
                     isTyping = true
                 }
                 timer.cancel()
@@ -90,7 +93,7 @@ class MainActivity : AppCompatActivity() {
                     object : TimerTask() {
                         override fun run() {
                             isTyping = false
-                            if(BuildConfig.DEBUG)
+                            if (BuildConfig.DEBUG)
                                 Timber.d("Stop typing")
 
                             val message = MessageModel(
@@ -120,6 +123,11 @@ class MainActivity : AppCompatActivity() {
 
         chatViewModel.serverErrorOutput.error.observe(this) {
             Toast.makeText(this, "$it ", Toast.LENGTH_LONG).show()
+        }
+
+        if (!NetworkUtil.isInternetAvailable) {
+            Toast.makeText(this, getString(R.string.error_internet), Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
