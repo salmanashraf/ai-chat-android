@@ -136,7 +136,7 @@ setContent {
 - ✅ Real product integration (Gemini or OpenAI)
 - ✅ Reusable by other devs and scalable
 - ✅ MVVM + Compose + Room = Best Practices
-- ✅ Demonstrates innovation + technical leadership
+
 
 
 ---
