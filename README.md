@@ -1,4 +1,4 @@
-# 🤖 AI Chat SDK for Android (OpenAI & Gemini Support)
+# 🤖 AI Chat SDK for Android (OpenAI)
 
 This is a lightweight and production-ready Android SDK that lets you integrate conversational AI (Gemini or OpenAI) into any Android app using modern development practices.
 
@@ -7,7 +7,7 @@ This is a lightweight and production-ready Android SDK that lets you integrate c
 ## 🚀 Features
 
 - ✨ Jetpack Compose UI for chat
-- 🤖 OpenAI GPT-3.5 / Gemini integration (pluggable)
+- 🤖 OpenAI GPT-3.5
 - 💾 Local message persistence using Room
 - 🔁 Real-time chat updates using Kotlin Flow
 - 🧱 MVVM + Clean Architecture
