@@ -139,10 +139,6 @@ setContent {
 - ✅ Demonstrates innovation + technical leadership
 
 
-### Demo
-
-https://user-images.githubusercontent.com/2988051/154840275-941842f9-6aa7-4bb4-ab90-5ca0e617ba91.mp4
-
 ---
 
 ## 📝 License
