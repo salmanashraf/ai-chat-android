@@ -1,147 +1,146 @@
-# 🤖 AI Chat SDK for Android (OpenAI)
+# 🤖 AI Chat SDK for Android – Compose + OpenAI + RoomDB
 
-This is a lightweight and production-ready Android SDK that lets you integrate conversational AI (Gemini or OpenAI) into any Android app using modern development practices.
+A modular, production-ready **AI Chat SDK** for Android built using **Jetpack Compose**, **OpenAI's LLM API**, **Room Database** for persistence, and **Clean Architecture** principles.
 
----
-
-## 🚀 Features
-
-- ✨ Jetpack Compose UI for chat
-- 🤖 OpenAI GPT-3.5
-- 💾 Local message persistence using Room
-- 🔁 Real-time chat updates using Kotlin Flow
-- 🧱 MVVM + Clean Architecture
-- 📱 Sample app included
+Whether you're building fintech tools, education bots, or customer support assistants — this SDK provides everything you need to integrate intelligent LLM chat into your Android app.
 
 ---
 
-## 📁 Project Structure
+## ✨ Features
 
-```
-md-android-clean/
-├── aichatlib/                # Reusable SDK module
-│   ├── data/                 # Room DB setup
-│   ├── model/                # Message & API Models
-│   ├── repository/           # Handles AI API and local persistence
-│   ├── ui/                   # Chat UI Composables
-│   └── viewmodel/            # ChatViewModel
-├── sampleapp/                # Demo app using the SDK
-│   └── MainActivity.kt
-```
+- 🔌 Plug-and-play AI chat component (Jetpack Compose)
+- 💬 Supports LLMs (OpenAI GPT models)
+- 🗃️ Local message persistence with Room DB
+- 🧠 MVVM & Repository Pattern
+- 📦 Easy to integrate as a library module
 
 ---
 
-## 🔧 Setup
+## 🧠 Powered by LLM
 
-### 1. Add to `libs.versions.toml`:
-```toml
-okhttp = "com.squareup.okhttp3:okhttp:4.12.0"
-json = "org.json:json:20231013"
-```
+This SDK uses **OpenAI’s GPT-3.5 Turbo** LLM to generate real-time AI responses from natural language inputs.
 
-### 2. Add Internet Permission in `AndroidManifest.xml`:
-```xml
-<uses-permission android:name="android.permission.INTERNET"/>
-```
+You can easily swap in **Gemini Pro** or any other LLM provider using the existing architecture.
 
-### 3. Application Class (init Room):
+---
+
+## 📐 Architecture
+
+- `ai-chat-lib/`
+  - `model/`: Shared message models and OpenAI response structures
+  - `repository/`: Handles message I/O and network requests to LLM
+  - `dao/`: Room DAO for saving and retrieving messages
+  - `viewmodel/`: ViewModel layer using Kotlin Coroutines
+  - `ui/`: Composable chat UI
+  - `network/`: OpenAI HTTP client integration
+  - `factory/`: ViewModel factory injection
+  - `AIChatApp.kt`: Central app initialization with DB setup
+
+---
+
+## 📦 Setup
+
+### 1. Add Dependencies
+
+In your `build.gradle.kts`:
+
 ```kotlin
-class AIChatApp : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        AppDatabase.init(this)
-    }
-}
-```
-
-Update your `AndroidManifest.xml` of sample app:
-```xml
-<application android:name=".AIChatApp" ... />
+implementation("androidx.compose.ui:ui:<version>")
+implementation("androidx.room:room-runtime:<version>")
+kapt("androidx.room:room-compiler:<version>")
+implementation("com.squareup.okhttp3:okhttp:4.12.0")
+implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 ```
 
 ---
 
-## 🤖 Using OpenAI (GPT-3.5)
+### 2. Configure OpenAI Access
 
-In `ChatRepository.kt`:
+Set your OpenAI API key securely:
+
 ```kotlin
-suspend fun getAIResponse(message: String): String = withContext(Dispatchers.IO) {
-    val json = JSONObject().apply {
-        put("model", "gpt-3.5-turbo")
-        put("messages", JSONArray().apply {
-            put(JSONObject().apply {
-                put("role", "user")
-                put("content", message)
-            })
-        })
-    }
-
-    val requestBody = json.toString()
-        .toRequestBody("application/json".toMediaType())
-
-    val request = Request.Builder()
-        .url("https://api.openai.com/v1/chat/completions")
-        .header("Authorization", "Bearer YOUR_API_KEY")
-        .post(requestBody)
-        .build()
-
-    val response = client.newCall(request).execute()
-    val body = response.body?.string()
-
-    return@withContext JSONObject(body ?: "")
-        .getJSONArray("choices")
-        .getJSONObject(0)
-        .getJSONObject("message")
-        .getString("content").trim()
-}
+val request = Request.Builder()
+    .url("https://api.openai.com/v1/chat/completions")
+    .header("Authorization", "Bearer YOUR_API_KEY")
 ```
-
-> 🔐 Replace `YOUR_API_KEY` with your [OpenAI API key](https://platform.openai.com/account/api-keys)
 
 ---
 
-## 💬 Start Chat Screen
+### 3. Integrate the SDK
 
-In your `MainActivity.kt`:
+Initialize DB in your `Application` class:
+
 ```kotlin
-setContent {
-    MaterialTheme {
-        ChatScreen()
-    }
-}
+val db = Room.databaseBuilder(
+    context,
+    AppDatabase::class.java, "chat.db"
+).build()
+```
+
+Then in your `Activity` or `Compose` function:
+
+```kotlin
+ChatScreen(viewModel = defaultChatViewModel())
 ```
 
 ---
 
-## ✅ Tech Highlights
+### 4. Customization
 
-| Layer     | Technology               |
-|-----------|--------------------------|
-| UI        | Jetpack Compose          |
-| ViewModel | Kotlin Coroutines + Flow |
-| DB        | Room                     |
-| Network   | OpenAI via OkHttp        |
+- Replace OpenAI endpoint with Gemini/Grok/LLama2
+- Update `ChatRepository` to modify prompt structure
+- Override `MessageDao` for encryption or multi-user storage
 
 ---
 
-## 📸 Screenshot
+## 📊 Sample Use Case
 
-> ✅ Typing UI, persistent history, AI replies with loading indicator.
+```kotlin
+viewModel.sendUserMessage("What's the weather today?")
+```
+
+Under the hood:
+
+- Saves user message
+- Sends to OpenAI LLM
+- Parses JSON response
+- Stores AI reply
+- Emits live UI updates
 
 ---
 
-## 💡 Why this matters (Tech Nation):
+## 📁 Folder Overview
 
-- ✅ Modular SDK with Clean Architecture
-- ✅ Real product integration (Gemini or OpenAI)
-- ✅ Reusable by other devs and scalable
-- ✅ MVVM + Compose + Room = Best Practices
-
-
+```
+ai-chat-lib/
+│
+├── viewmodel/         # MVVM logic
+├── repository/        # ChatRepository with LLM logic
+├── dao/               # Room DB setup
+├── model/             # Domain & network models
+├── network/           # OpenAI client integration
+├── ui/                # Composable UI
+└── AIChatApp.kt       # Application initializer
+```
 
 ---
 
-## 📝 License
+## 🚀 How to Run
 
-MIT – Free to use, modify, and extend.
+1. Clone this repo
+2. Add your OpenAI API key
+3. Run `:sample-app` module
+4. Start chatting with LLM in real time!
 
+---
+
+## 🔒 Security Notes
+
+- Keep your API key in encrypted secrets or gradle properties
+- Do not hardcode credentials in source files
+
+---
+
+## 📬 Contact
+
+For help or collaboration, reach out via [GitHub](https://github.com/salmanashraf) or open an issue.
