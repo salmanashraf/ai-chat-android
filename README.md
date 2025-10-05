@@ -139,6 +139,11 @@ ai-chat-lib/
 - Keep your API key in encrypted secrets or gradle properties
 - Do not hardcode credentials in source files
 
+#### License
+
+This project is licensed under the [MIT License](https://github.com/salmanashraf/ai-chat-android/blob/master/LICENSE).
+
+
 ---
 
 ## 📬 Contact
