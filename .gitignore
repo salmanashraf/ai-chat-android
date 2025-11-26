@@ -13,3 +13,67 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Gradle
+.gradle/
+build/
+**/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+.idea/
+*.ipr
+*.iws
+captures/
+.externalNativeBuild/
+.cxx/
+*.log
+
+# OS files
+Thumbs.db
+
+# Keystores / signing
+*.jks
+*.keystore
+*.pem
+*.p12
+*.key
+keystore.properties
+
+# API keys / secrets (project-specific)
+credentials.properties
+secret.properties
+.env
+.env.*
+*.env
+**/secrets/*.json
+
+# Google services & firebase (never commit real ones)
+app/google-services.json
+app/src/**/google-services.json
+**/google-services.json
+firebase-app-id.json
+
+# Crashlytics / analytics
+**/crashlytics-build.properties
+
+# Kotlin / Java
+*.class
+*.jar
+*.war
+*.ear
+*.hprof
+
+# Android Studio
+/.idea/*
+!/.idea/codeStyles
+!/.idea/runConfigurations
+
+# Jetpack Compose preview caches
+**/build/**/compose-*/**
+
+# NDK / CMake
+obj/
+
+# Test reports
+**/test-results/
+**/reports/
