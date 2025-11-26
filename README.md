@@ -54,6 +54,12 @@ Production-grade, multi-provider AI chat SDK for Android written in Kotlin + Jet
 - Sample app acts as manual validation harness; follow `docs/DEV_TEST_GUIDE.md` for QA steps.
 - Provider engines use OkHttp + kotlinx serialization; MockWebServer can be used for integration testing.
 
+## Release Automation
+- `LIB_VERSION` is configured in `gradle.properties`. Update it before tagging.
+- Publish locally: `./gradlew :ai-chat-lib:publishReleasePublicationToMavenLocal`.
+- GitHub Actions workflow `.github/workflows/release.yml` runs on tags (`v*.*.*`): it executes tests, assembles the release AAR, publishes to Maven Local (for verification/logs), uploads the artifact, **and publishes directly to GitHub Packages** using the workflow token.
+- To publish elsewhere (Maven Central, Artifactory), add another `maven {}` repository block under `publishing.repositories` with the appropriate credentials.
+
 ## Roadmap Highlights
 - v1.1: multi-provider GA (current milestone).
 - v1.2: tool SDK + docs.

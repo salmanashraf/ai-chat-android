@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Gradle Cache
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Run Tests
+        run: ./gradlew clean test
+
+      - name: Assemble Library
+        run: ./gradlew :ai-chat-lib:assembleRelease
+
+      - name: Publish to Maven Local
+        run: ./gradlew :ai-chat-lib:publishReleasePublicationToMavenLocal
+
+      - name: Publish to GitHub Packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew :ai-chat-lib:publishReleasePublicationToGitHubPackagesRepository
+
+      - name: Upload AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-chat-lib-aar
+          path: ai-chat-lib/build/outputs/aar/*.aar
