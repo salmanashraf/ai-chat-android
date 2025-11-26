@@ -8,7 +8,7 @@ plugins {
 
 android {
 	namespace = "com.sa.sampleapp"
-	compileSdk = 35
+	compileSdk = 36
 
 	defaultConfig {
 		applicationId = "com.sa.sampleapp"
@@ -52,6 +52,8 @@ dependencies {
 	implementation(libs.compose.material3)
 	implementation(libs.lifecycle.viewmodel.compose)
 	implementation(libs.activity.compose)
+	implementation(libs.okhttp)
+	implementation(libs.kotlinx.serialization.json)
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)

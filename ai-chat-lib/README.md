@@ -122,21 +122,6 @@ setContent {
 | DB        | Room                     |
 | Network   | OpenAI via OkHttp        |
 
----
-
-## 📸 Screenshot
-
-> ✅ Typing UI, persistent history, AI replies with loading indicator.
-
----
-
-## 💡 Why this matters (Tech Nation):
-
-- ✅ Modular SDK with Clean Architecture
-- ✅ Real product integration (Gemini or OpenAI)
-- ✅ Reusable by other devs and scalable
-- ✅ MVVM + Compose + Room = Best Practices
-- ✅ Demonstrates innovation + technical leadership
 
 ---
 

@@ -1,15 +1,15 @@
 plugins {
-	id("com.android.library")
-	id("kotlin-kapt")
+	alias(libs.plugins.android.library)
 	alias(libs.plugins.kotlin.android)
-	alias(libs.plugins.kotlin.parcelize)
-	alias(libs.plugins.kotlin.serialization)
-	alias(libs.plugins.compose.compiler)
 }
 
 android {
 	namespace = "com.sa.aichatlib"
-	compileSdk = 35
+	compileSdk = 36
+
+	defaultConfig {
+		minSdk = 24
+	}
 
 	buildTypes {
 		release {
@@ -30,23 +30,14 @@ android {
 }
 
 dependencies {
-
-	implementation(libs.androidx.core.ktx)
-	implementation(libs.androidx.appcompat)
-	implementation(libs.material)
-	implementation(libs.compose.ui)
-	implementation(libs.compose.material3)
-	implementation(libs.lifecycle.viewmodel.compose)
-	implementation(libs.retrofit)
-	implementation(libs.gson.converter)
-	implementation(libs.gson)
-	implementation(libs.coroutines.android)
-	implementation(libs.kotlinx.serialization.json)
+	api(project(":modules:core"))
+	api(project(":modules:ui"))
+	implementation(project(":modules:providers:openai"))
+	implementation(project(":modules:providers:gemini"))
+	implementation(project(":modules:providers:anthropic"))
+	implementation(project(":modules:providers:xai"))
 	implementation(libs.okhttp)
-	implementation(libs.json)
-	kapt(libs.room.compiler)
-	implementation(libs.room.runtime)
-	implementation(libs.room.ktx)
+	implementation(libs.kotlinx.serialization.json)
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)
