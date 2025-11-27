@@ -56,9 +56,11 @@ Production-grade, multi-provider AI chat SDK for Android written in Kotlin + Jet
 
 ## Release Automation
 - `LIB_VERSION` is configured in `gradle.properties`. Update it before tagging.
-- Publish locally: `./gradlew :ai-chat-lib:publishReleasePublicationToMavenLocal`.
-- GitHub Actions workflow `.github/workflows/release.yml` runs on tags (`v*.*.*`): it executes tests, assembles the release AAR, publishes to Maven Local (for verification/logs), uploads the artifact, **and publishes directly to GitHub Packages** using the workflow token.
-- To publish elsewhere (Maven Central, Artifactory), add another `maven {}` repository block under `publishing.repositories` with the appropriate credentials.
+- Publish locally or to GitHub Packages using:  
+  `./gradlew :ai-chat-lib:publishGprPublicationToGitHubPackagesRepository`  
+  (requires `gpr.user` / `gpr.key` in `~/.gradle/gradle.properties` or `GPR_USER`/`GPR_KEY` env vars).
+- GitHub Actions workflow `.github/workflows/release.yml` runs on tags (`v*.*.*`): it executes tests, assembles the release AAR, publishes to GitHub Packages, and uploads the artifact.
+- To publish to other Maven repositories, extend the `publishing.repositories` block with another `maven {}` entry.
 
 ## Roadmap Highlights
 - v1.1: multi-provider GA (current milestone).

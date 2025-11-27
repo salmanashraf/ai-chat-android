@@ -1,7 +1,10 @@
+import java.util.Properties
+
 plugins {
 	alias(libs.plugins.android.library)
 	alias(libs.plugins.kotlin.android)
 	id("maven-publish")
+	id("signing")
 }
 
 android {
@@ -49,30 +52,59 @@ dependencies {
 	androidTestImplementation(libs.androidx.espresso.core)
 }
 
-afterEvaluate {
-	val libVersion = project.findProperty("LIB_VERSION")?.toString() ?: "1.0.0-SNAPSHOT"
-	publishing {
-		publications {
-			create<MavenPublication>("release") {
-				groupId = "com.sa.aichatlib"
-				artifactId = "ai-chat-lib"
-				version = libVersion
+publishing {
+	publications {
+		create<MavenPublication>("release") {
+			groupId = "io.github.salmanashraf"
+			artifactId = "aichatlib"
+			version = "1.0.0"
+
+			afterEvaluate {
 				from(components["release"])
 			}
-		}
-		repositories {
-			val githubRepo = System.getenv("GITHUB_REPOSITORY")
-			val githubToken = System.getenv("GITHUB_TOKEN")
-			if (!githubRepo.isNullOrBlank() && !githubToken.isNullOrBlank()) {
-				maven {
-					name = "GitHubPackages"
-					url = uri("https://maven.pkg.github.com/$githubRepo")
-					credentials {
-						username = System.getenv("GITHUB_ACTOR")
-						password = githubToken
+
+			pom {
+				name.set("AI Chat Android SDK")
+				description.set("A multi-provider AI chat SDK for Android apps including GPT, Claude, Gemini, and Grok.")
+				url.set("https://github.com/salmanashraf/ai-chat-android")
+
+				licenses {
+					license {
+						name.set("MIT License")
+						url.set("https://opensource.org/licenses/MIT")
 					}
+				}
+
+				developers {
+					developer {
+						id.set("salmanashraf")
+						name.set("Salman Ashraf")
+						email.set("salmanashraf.12@gmail.com")
+					}
+				}
+
+				scm {
+					url.set("https://github.com/salmanashraf/ai-chat-android")
+					connection.set("scm:git:git://github.com/salmanashraf/ai-chat-android.git")
+					developerConnection.set("scm:git:ssh://github.com:salmanashraf/ai-chat-android.git")
 				}
 			}
 		}
 	}
+
+	repositories {
+		maven {
+			name = "OSSRH"
+			url = uri("https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/")
+			credentials {
+				username = project.findProperty("ossrhUsername") as String?
+				password = project.findProperty("ossrhPassword") as String?
+			}
+		}
+	}
+}
+
+signing {
+	useGpgCmd()  // REQUIRED for macOS GPG 2.4+
+	sign(publishing.publications["release"])
 }

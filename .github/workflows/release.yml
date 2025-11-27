@@ -28,13 +28,12 @@ jobs:
       - name: Assemble Library
         run: ./gradlew :ai-chat-lib:assembleRelease
 
-      - name: Publish to Maven Local
-        run: ./gradlew :ai-chat-lib:publishReleasePublicationToMavenLocal
-
       - name: Publish to GitHub Packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew :ai-chat-lib:publishReleasePublicationToGitHubPackagesRepository
+          GPR_USER: ${{ secrets.GPR_USER }}
+          GPR_KEY: ${{ secrets.GPR_KEY }}
+        run: ./gradlew :ai-chat-lib:publishGprPublicationToGitHubPackagesRepository
 
       - name: Upload AAR
         uses: actions/upload-artifact@v4
