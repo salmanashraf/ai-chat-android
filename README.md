@@ -61,6 +61,11 @@ Production-grade, multi-provider AI chat SDK for Android written in Kotlin + Jet
   (requires `gpr.user` / `gpr.key` in `~/.gradle/gradle.properties` or `GPR_USER`/`GPR_KEY` env vars).
 - GitHub Actions workflow `.github/workflows/release.yml` runs on tags (`v*.*.*`): it executes tests, assembles the release AAR, publishes to GitHub Packages, and uploads the artifact.
 - To publish to other Maven repositories, extend the `publishing.repositories` block with another `maven {}` entry.
+- Publishing an artifact bundle for the Maven Central Portal is automated:  
+  1. `./gradlew clean :ai-chat-lib:publishReleasePublicationToCentralPortalRepository`  
+  2. `./gradlew :ai-chat-lib:bundleCentralComponent`  
+  3. Upload `ai-chat-lib/build/central-component/aichatlib-<version>-component.zip` in the portal.  
+  This zip already contains the canonical `io/github/.../<version>/` layout plus the required `.md5`, `.sha1`, and `.asc` files for every artifact.
 
 ## Roadmap Highlights
 - v1.1: multi-provider GA (current milestone).

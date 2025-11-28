@@ -8,3 +8,14 @@ plugins {
 	alias(libs.plugins.kotlin.parcelize) apply false
 	alias(libs.plugins.compose.compiler) apply false
 }
+
+val publishedGroup = "io.github.salmanashraf"
+val publishedVersion = providers
+	.gradleProperty("LIB_VERSION")
+	.orElse("0.0.1-SNAPSHOT")
+	.get()
+
+allprojects {
+	group = publishedGroup
+	version = publishedVersion
+}
